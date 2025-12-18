@@ -25,3 +25,4 @@ func _input(event: InputEvent) -> void:
 func _reset_ball() -> void:
     ball.global_position = ball_start_pos
     ball.linear_velocity = Vector3.ZERO
+    ball.angular_velocity = Vector3.ZERO
