@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=4 uid="uid://cfb8ths1ap7vp"]
+[gd_scene load_steps=107 format=4 uid="uid://cfb8ths1ap7vp"]
 
 [ext_resource type="Script" uid="uid://cams46q5qmm52" path="res://scenes/platform.gd" id="1_ba0x2"]
 
@@ -912,6 +912,9 @@ shadow_mesh = SubResource("ArrayMesh_47bw3")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gvvot"]
 data = PackedVector3Array(0.037534133, -0.05048412, -0.43933237, 0.026218873, 0.05048412, 0.06500792, 0.037534133, 0.05048412, -0.43933237, 0.037534133, -0.05048412, -0.43933237, 0.026218873, -0.05048412, 0.06500792, 0.026218873, 0.05048412, 0.06500792, 0.026218873, -0.05048412, 0.06500792, -0.029108029, 0.05048412, 0.06376662, 0.026218873, 0.05048412, 0.06500792, 0.026218873, -0.05048412, 0.06500792, -0.029108029, -0.05048412, 0.06376662, -0.029108029, 0.05048412, 0.06376662, -0.029108029, -0.05048412, 0.06376662, -0.017792767, 0.05048412, -0.4405737, -0.029108029, 0.05048412, 0.06376662, -0.029108029, -0.05048412, 0.06376662, -0.017792767, -0.05048412, -0.4405737, -0.017792767, 0.05048412, -0.4405737, -0.017792767, -0.05048412, -0.4405737, 0.037534133, 0.05048412, -0.43933237, -0.017792767, 0.05048412, -0.4405737, -0.017792767, -0.05048412, -0.4405737, 0.037534133, -0.05048412, -0.43933237, 0.037534133, 0.05048412, -0.43933237, 0.026218873, -0.05048412, 0.06500792, -0.017792767, -0.05048412, -0.4405737, -0.029108029, -0.05048412, 0.06376662, 0.026218873, -0.05048412, 0.06500792, 0.037534133, -0.05048412, -0.43933237, -0.017792767, -0.05048412, -0.4405737, -0.029108029, 0.05048412, 0.06376662, 0.037534133, 0.05048412, -0.43933237, 0.026218873, 0.05048412, 0.06500792, -0.029108029, 0.05048412, 0.06376662, -0.017792767, 0.05048412, -0.4405737, 0.037534133, 0.05048412, -0.43933237)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ba0x2"]
+size = Vector3(0.18267822, 0.1126709, 0.22167969)
+
 [node name="platform" type="Node3D"]
 script = ExtResource("1_ba0x2")
 
@@ -1113,7 +1116,7 @@ sync_to_physics = false
 shape = SubResource("ConcavePolygonShape3D_kjq6l")
 
 [node name="Cube_017" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15934952, -0.049999997, -0.0073392224)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.119945765, -0.049999997, 0.030008154)
 mesh = SubResource("ArrayMesh_w8w3x")
 skeleton = NodePath("")
 
@@ -1199,3 +1202,10 @@ sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube_024/AnimateableBody3D"]
 shape = SubResource("ConcavePolygonShape3D_gvvot")
+
+[node name="StartPosReinforcement" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7857815, -0.15733437, -0.2040604)
+sync_to_physics = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartPosReinforcement"]
+shape = SubResource("BoxShape3D_ba0x2")
