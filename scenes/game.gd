@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-    if ball.global_transform.origin.y < -10.0:
+    if ball.global_position.y < -1.0:
         _reset_ball()
 
 
