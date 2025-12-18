@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://bqesll55j75wo"]
+
+[ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://cfb8ths1ap7vp" path="res://scenes/platform.tscn" id="2_yqjtg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8cj0n"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_uwrxv"]
+sky_material = SubResource("ProceduralSkyMaterial_8cj0n")
+
+[sub_resource type="Environment" id="Environment_yqjtg"]
+background_mode = 2
+sky = SubResource("Sky_uwrxv")
+tonemap_mode = 2
+ssao_enabled = true
+ssao_radius = 0.16
+glow_enabled = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yqjtg"]
+friction = 0.75
+bounce = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_lnu2h"]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yqjtg"]
+albedo_color = Color(0.83889705, 0.83889705, 0.8388969, 1)
+metallic = 1.0
+roughness = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lbhrr"]
+radius = 0.05
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_yqjtg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yqjtg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+shadow_bias = 0.02
+directional_shadow_max_distance = 4.8
+
+[node name="Ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8125161, 1.4271826, -0.20236914)
+physics_material_override = SubResource("PhysicsMaterial_yqjtg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("SphereMesh_lnu2h")
+surface_material_override/0 = SubResource("StandardMaterial3D_yqjtg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_lbhrr")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.18642116, 0.9824699, 0, -0.9824699, 0.18642116, 0, 2.1267524, 0.4695722)
+fov = 53.0
+
+[node name="Platform" parent="." instance=ExtResource("2_yqjtg")]
