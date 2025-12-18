@@ -15,10 +15,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-    if event.is_action("reset"):
-        _reset_ball()
+    if event.is_action_pressed("reset"):
+        call_deferred("_reset_ball")
 
-    if event.is_action("exit"):
+    if event.is_action_pressed("exit"):
         get_tree().quit()
 
 
