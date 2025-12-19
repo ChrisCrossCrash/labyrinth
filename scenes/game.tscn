@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=96 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c5e6d4n4cytga" path="res://assets/polyhaven/plywood_2k.blend/textures/plywood_diff_2k.jpg" id="4_iywne"]
 [ext_resource type="Script" uid="uid://cams46q5qmm52" path="res://scenes/platform.gd" id="5_iywne"]
 [ext_resource type="Texture2D" uid="uid://dc4xtlabnfc7f" path="res://assets/polyhaven/plywood_2k.blend/textures/plywood_rough_2k.exr" id="5_p57ef"]
+[ext_resource type="AudioStream" uid="uid://3udbnk3dkqx7" path="res://assets/pixabay/ball-in-hole-99750-modified-fell-through.ogg" id="8_gee14"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lbhrr"]
 panorama = ExtResource("2_lnu2h")
@@ -1296,3 +1297,7 @@ sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/BallCatcher"]
 shape = SubResource("BoxShape3D_iywne")
+
+[node name="FellThroughSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+stream = ExtResource("8_gee14")

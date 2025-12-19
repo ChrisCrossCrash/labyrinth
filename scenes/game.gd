@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var ball := $Ball
+@onready var fell_through_sound := $FellThroughSound
 
 var ball_start_pos: Vector3
 
@@ -11,6 +12,8 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
     if ball.global_position.y < -1.0:
+        fell_through_sound.global_position = ball.global_position
+        fell_through_sound.play()
         _reset_ball()
 
 
