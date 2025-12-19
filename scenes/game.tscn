@@ -1,10 +1,11 @@
-[gd_scene load_steps=96 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=97 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
 [ext_resource type="Script" uid="uid://bkr8csfpaioso" path="res://scenes/ball.gd" id="3_u5sy4"]
 [ext_resource type="AudioStream" uid="uid://dljfce0kglpdw" path="res://assets/pixabay/ball-on-table-17825-modified-for-looping.ogg" id="4_gee14"]
 [ext_resource type="Texture2D" uid="uid://c5e6d4n4cytga" path="res://assets/polyhaven/plywood_2k.blend/textures/plywood_diff_2k.jpg" id="4_iywne"]
+[ext_resource type="AudioStream" uid="uid://cibdf7qdqqnow" path="res://assets/pixabay/ball-in-hole-99750-modified-hit-wall.ogg" id="5_0tnpc"]
 [ext_resource type="Script" uid="uid://cams46q5qmm52" path="res://scenes/platform.gd" id="5_iywne"]
 [ext_resource type="Texture2D" uid="uid://dc4xtlabnfc7f" path="res://assets/polyhaven/plywood_2k.blend/textures/plywood_rough_2k.exr" id="5_p57ef"]
 [ext_resource type="AudioStream" uid="uid://3udbnk3dkqx7" path="res://assets/pixabay/ball-in-hole-99750-modified-fell-through.ogg" id="8_gee14"]
@@ -990,6 +991,9 @@ shape = SubResource("SphereShape3D_lbhrr")
 stream = ExtResource("4_gee14")
 autoplay = true
 
+[node name="BallHitWallSound" type="AudioStreamPlayer3D" parent="Ball"]
+stream = ExtResource("5_0tnpc")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.18642116, 0.9824699, 0, -0.9824699, 0.18642116, 0, 2.1267524, 0.4695722)
 fov = 53.0
@@ -1010,285 +1014,285 @@ script = ExtResource("5_iywne")
 mesh = SubResource("ArrayMesh_n0xc7")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/FloorHoles" groups=["platform"]]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/FloorHoles" groups=["platform", "walls"]]
 sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/FloorHoles/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_73jgk")
 
-[node name="Cube" type="MeshInstance3D" parent="Platform"]
+[node name="Wall" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5642567, -0.049999997, -0.8461158)
 mesh = SubResource("ArrayMesh_rmvej")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_gij17")
 
-[node name="Cube_001" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_001" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4581932, -0.049999997, -0.85177255)
 mesh = SubResource("ArrayMesh_x7thv")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_001"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_001" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_001/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_001/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_3lphq")
 
-[node name="Cube_002" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_002" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.84143543, -0.049999997, -0.6750004)
 mesh = SubResource("ArrayMesh_y5a4d")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_002"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_002" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_002/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_002/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_8xt33")
 
-[node name="Cube_003" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_003" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.84002125, -0.049999997, -0.39216504)
 mesh = SubResource("ArrayMesh_awo5g")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_003"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_003" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_003/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_003/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_5x5mj")
 
-[node name="Cube_004" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_004" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8272937, -0.049999997, -0.00326637)
 mesh = SubResource("ArrayMesh_6vgvt")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_004"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_004" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_004/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_004/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_vmuv8")
 
-[node name="Cube_005" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_005" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40982857, -0.049999997, -0.5510621)
 mesh = SubResource("ArrayMesh_lphj1")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_005"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_005" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_005/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_005/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_qtqxv")
 
-[node name="Cube_006" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_006" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55441403, -0.049999997, -0.20283507)
 mesh = SubResource("ArrayMesh_63t2p")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_006"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_006" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_006/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_006/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_4rl0r")
 
-[node name="Cube_007" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_007" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3976101, -0.049999997, -0.29243734)
 mesh = SubResource("ArrayMesh_0iswf")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_007"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_007" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_007/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_007/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_4bquk")
 
-[node name="Cube_008" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_008" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2102599, -0.049999997, -0.23949055)
 mesh = SubResource("ArrayMesh_b477b")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_008"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_008" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_008/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_008/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_mykw5")
 
-[node name="Cube_009" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_009" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6939085, -0.049999997, -0.12341488)
 mesh = SubResource("ArrayMesh_f3avh")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_009"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_009" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_009/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_009/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_blua2")
 
-[node name="Cube_010" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_010" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70409065, -0.049999997, 0.24110346)
 mesh = SubResource("ArrayMesh_2dnyq")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_010"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_010" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_010/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_010/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_brkkc")
 
-[node name="Cube_011" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_011" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7020542, -0.049999997, 0.5424929)
 mesh = SubResource("ArrayMesh_isfbo")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_011"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_011" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_011/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_011/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_jid62")
 
-[node name="Cube_012" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_012" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57851166, -0.049999997, 0.7911576)
 mesh = SubResource("ArrayMesh_itmdo")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_012"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_012" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_012/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_012/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_03huv")
 
-[node name="Cube_013" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_013" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21516572, -0.049999997, 0.78504384)
 mesh = SubResource("ArrayMesh_j4msl")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_013"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_013" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_013/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_013/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_4qpsr")
 
-[node name="Cube_014" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_014" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7000178, -0.049999997, -0.07454091)
 mesh = SubResource("ArrayMesh_iff3k")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_014"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_014" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_014/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_014/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_rsi8p")
 
-[node name="Cube_015" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_015" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10334805, -0.049999997, -0.21505354)
 mesh = SubResource("ArrayMesh_2v6lv")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_015"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_015" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_015/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_015/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_lituw")
 
-[node name="Cube_016" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_016" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12269406, -0.049999997, 0.0985544)
 mesh = SubResource("ArrayMesh_wtdke")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_016"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_016" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_016/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_016/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_46fgs")
 
-[node name="Cube_017" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_017" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15934952, -0.049999997, -0.0073392224)
 mesh = SubResource("ArrayMesh_bh4sa")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_017"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_017" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_017/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_017/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_byfww")
 
-[node name="Cube_018" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_018" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06771083, -0.049999997, 0.611731)
 mesh = SubResource("ArrayMesh_7fqkm")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_018"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_018" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_018/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_018/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_cofcm")
 
-[node name="Cube_019" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_019" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3762277, -0.049999997, 0.057826042)
 mesh = SubResource("ArrayMesh_udc1w")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_019"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_019" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_019/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_019/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_k5laf")
 
-[node name="Cube_020" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_020" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16240409, -0.049999997, 0.3327421)
 mesh = SubResource("ArrayMesh_7f7nf")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_020"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_020" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_020/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_020/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_aaq2c")
 
-[node name="Cube_021" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_021" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08603859, -0.049999997, 0.4589999)
 mesh = SubResource("ArrayMesh_a08bc")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_021"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_021" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_021/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_021/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_444p8")
 
-[node name="Cube_022" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_022" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57885104, -0.049999997, 0.53231084)
 mesh = SubResource("ArrayMesh_kjq6l")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_022"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_022" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_022/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_022/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_jul1r")
 
-[node name="Cube_023" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_023" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.67218673, -0.049999997, 0.4246073)
 mesh = SubResource("ArrayMesh_w8w3x")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_023"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_023" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_023/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_023/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_hj372")
 
-[node name="Cube_024" type="MeshInstance3D" parent="Platform"]
+[node name="Wall_024" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43426558, -0.049999997, 0.434563)
 mesh = SubResource("ArrayMesh_i4l0y")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Cube_024"]
+[node name="StaticBody3D" type="AnimatableBody3D" parent="Platform/Wall_024" groups=["walls"]]
 sync_to_physics = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Cube_024/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/Wall_024/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_qcpsp")
 
 [node name="BallCatcher" type="AnimatableBody3D" parent="Platform"]

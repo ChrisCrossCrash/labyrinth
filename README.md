@@ -19,8 +19,9 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 
 **Must haves:**
 - [ ] Platform surface markings
-- [ ] Marble rolling sounds
-- [ ] Marble wall collision sounds
+- [x] Marble rolling sounds
+- [x] Marble falling through sound
+- [x] Marble wall collision sounds
 - [ ] Win detection and feedback
 - [ ] Timer integration
 - [ ] Windows (x86_64) build
