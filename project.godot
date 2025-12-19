@@ -15,6 +15,10 @@ run/main_scene="uid://bqesll55j75wo"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+platform="The bottom part of the platform that the ball rolls around on"
+
 [input]
 
 forward={
