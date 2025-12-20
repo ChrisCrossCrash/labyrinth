@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=114 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -1029,6 +1029,9 @@ shadow_mesh = SubResource("ArrayMesh_axw1v")
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_a0onb"]
 data = PackedVector3Array(-0.027670411, -0.05048412, 0.111918055, -0.027670411, 0.05048412, -0.04831178, -0.027670411, 0.05048412, 0.111918055, -0.027670411, -0.05048412, 0.111918055, -0.027670411, -0.05048412, -0.04831178, -0.027670411, 0.05048412, -0.04831178, -0.027670411, -0.05048412, -0.04831178, 0.027670411, 0.05048412, -0.04831178, -0.027670411, 0.05048412, -0.04831178, -0.027670411, -0.05048412, -0.04831178, 0.027670411, -0.05048412, -0.04831178, 0.027670411, 0.05048412, -0.04831178, 0.027670411, -0.05048412, -0.04831178, 0.027670411, 0.05048412, 0.111918055, 0.027670411, 0.05048412, -0.04831178, 0.027670411, -0.05048412, -0.04831178, 0.027670411, -0.05048412, 0.111918055, 0.027670411, 0.05048412, 0.111918055, 0.027670411, -0.05048412, 0.111918055, -0.027670411, 0.05048412, 0.111918055, 0.027670411, 0.05048412, 0.111918055, 0.027670411, -0.05048412, 0.111918055, -0.027670411, -0.05048412, 0.111918055, -0.027670411, 0.05048412, 0.111918055, -0.027670411, -0.05048412, -0.04831178, 0.027670411, -0.05048412, 0.111918055, 0.027670411, -0.05048412, -0.04831178, -0.027670411, -0.05048412, -0.04831178, -0.027670411, -0.05048412, 0.111918055, 0.027670411, -0.05048412, 0.111918055, 0.027670411, 0.05048412, -0.04831178, -0.027670411, 0.05048412, 0.111918055, -0.027670411, 0.05048412, -0.04831178, 0.027670411, 0.05048412, -0.04831178, 0.027670411, 0.05048412, 0.111918055, -0.027670411, 0.05048412, 0.111918055)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_kvpfn"]
+size = Vector3(0.234375, 0.13476563, 0.36572266)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8kepv"]
 resource_name = "Material"
 cull_mode = 2
@@ -1481,6 +1484,13 @@ sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/FloorHoles/Walls/Cube_025/AnimatableBody3D"]
 shape = SubResource("ConcavePolygonShape3D_a0onb")
+
+[node name="BallCatcher" type="AnimatableBody3D" parent="Platform/FloorHoles"]
+sync_to_physics = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/FloorHoles/BallCatcher"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8220438, -0.19262695, -0.30408412)
+shape = SubResource("BoxShape3D_kvpfn")
 
 [node name="KnobPlastic_bottom" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21905097, 1.253357)
