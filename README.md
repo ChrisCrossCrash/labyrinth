@@ -18,17 +18,17 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 ## Roadmap
 
 **Must haves:**
-- [ ] Platform surface markings
+- [x] Platform surface markings
 - [x] Marble rolling sounds
 - [x] Marble falling through sound
 - [x] Marble wall collision sounds
 - [ ] Win detection and feedback
 - [ ] Timer integration
-- [ ] Windows (x86_64) build
-- [ ] ARM64 build (for Raspberry Pi)
+- [x] Windows (x86_64) build
+- [x] ARM64 build (for Raspberry Pi)
 
 **Nice to haves:**
-- [ ] Improved level geometry (outer frame and knobs, beveled edges, etc.)
+- [x] Improved level geometry (outer frame and knobs, beveled edges, etc.)
 - [ ] Music
 - [ ] Mobile app build
 - [ ] Web build
