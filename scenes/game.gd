@@ -100,3 +100,9 @@ func _reset_ball() -> void:
     ball.global_position = _ball_start_pos
     ball.linear_velocity = Vector3.ZERO
     ball.angular_velocity = Vector3.ZERO
+
+
+func _on_win_zone_body_entered(body: Node3D) -> void:
+    if body == ball:
+        print("You win!")
+        _reset_ball()

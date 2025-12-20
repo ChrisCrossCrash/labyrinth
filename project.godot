@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 
 platform="The bottom part of the platform that the ball rolls around on"
 walls=""
+ball=""
 
 [input]
 

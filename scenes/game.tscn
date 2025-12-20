@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=115 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -1032,6 +1032,9 @@ data = PackedVector3Array(-0.027670411, -0.05048412, 0.111918055, -0.027670411, 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kvpfn"]
 size = Vector3(0.234375, 0.13476563, 0.36572266)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_dinhu"]
+size = Vector3(0.111328125, 0.08203125, 0.064453125)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8kepv"]
 resource_name = "Material"
 cull_mode = 2
@@ -1142,7 +1145,7 @@ script = ExtResource("1_yqjtg")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_p57ef")
 
-[node name="Ball" type="RigidBody3D" parent="."]
+[node name="Ball" type="RigidBody3D" parent="." groups=["ball"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8125161, 1.4271826, -0.20236914)
 physics_material_override = SubResource("PhysicsMaterial_yqjtg")
 contact_monitor = true
@@ -1492,6 +1495,13 @@ sync_to_physics = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8220438, -0.19262695, -0.30408412)
 shape = SubResource("BoxShape3D_kvpfn")
 
+[node name="WinZone" type="Area3D" parent="Platform/FloorHoles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2896171, -0.05124088, -0.24143595)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platform/FloorHoles/WinZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.03103)
+shape = SubResource("BoxShape3D_dinhu")
+
 [node name="KnobPlastic_bottom" type="MeshInstance3D" parent="Platform"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21905097, 1.253357)
 mesh = SubResource("ArrayMesh_ydfg8")
@@ -1509,3 +1519,5 @@ skeleton = NodePath("")
 [node name="Shell_xpivot" type="MeshInstance3D" parent="Platform"]
 mesh = SubResource("ArrayMesh_q8lo1")
 skeleton = NodePath("")
+
+[connection signal="body_entered" from="Platform/FloorHoles/WinZone" to="." method="_on_win_zone_body_entered"]
