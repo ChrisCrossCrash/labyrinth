@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://tfo73i6wm8rx"]
+
+[ext_resource type="Script" uid="uid://cp7inmx6nj4k8" path="res://scenes/waypoint.gd" id="1_omn23"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8hlp4"]
+size = Vector3(0.2, 0.1, 0.2)
+
+[node name="Waypoint" type="Area3D"]
+script = ExtResource("1_omn23")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_8hlp4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

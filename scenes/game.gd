@@ -4,8 +4,10 @@ extends Node3D
 @onready var fell_through_sound: AudioStreamPlayer3D = $FellThroughSound
 @onready var win_sound: AudioStreamPlayer = $WinSound
 @onready var camera: Camera3D = $Camera3D
-@onready var celebration_timer: Timer = $CelebrationTimer
+@onready var post_finish_timer: Timer = $PostFinishTimer
 @onready var completion_time_label: Label = $Overlay/CompletionTimeLabel
+@onready var cheated_label: Label = $Overlay/CheatedLabel
+@onready var waypoints := $Platform/Waypoints.get_children()
 @onready var confetti_piece_scene = preload("res://scenes/confetti_piece.tscn")
 
 var _ball_start_pos: Vector3
@@ -15,6 +17,7 @@ var _default_camera_fov: float
 var _fall_through_handled: bool = false
 var _run_time_elapsed := 0.0
 var _fastest_run_time := INF
+var _highest_waypoint_reached := -1
 
 ## Target camera field-of-view (degrees) when fully zoomed.
 @export var zoom_fov_deg := 10.0
@@ -54,6 +57,9 @@ func _ready() -> void:
 
     _smoothed_look_target = ball.global_position
     _smoothed_look_target.y = clamp(_smoothed_look_target.y, look_y_min, look_y_max)
+
+    for wp: Area3D in waypoints:
+        wp.connect("waypoint_reached", _on_waypoint_reached)
 
 
 func _input(event: InputEvent) -> void:
@@ -127,8 +133,8 @@ func _handle_ball_fall_through() -> void:
 
     # Do not reset in a celebration period.
     # Let _on_celebration_timer_timeout() handle it.
-    var is_celebrating = not celebration_timer.is_stopped()
-    if not is_celebrating:
+    var is_post_finish = not post_finish_timer.is_stopped()
+    if not is_post_finish:
         _reset_run()
 
 ## Resets the ball position and clears its linear and angular velocity.
@@ -143,6 +149,8 @@ func _reset_run() -> void:
     _reset_ball()
     _reset_timer()
     completion_time_label.hide()
+    cheated_label.hide()
+    _highest_waypoint_reached = -1
 
 
 func _explode_confetti() -> void:
@@ -199,8 +207,14 @@ func _spawn_one_confetti_piece() -> void:
 
 
 func _on_win_zone_body_entered(body: Node3D) -> void:
-    var just_finished := body == ball and celebration_timer.is_stopped()
+    var just_finished := body == ball and post_finish_timer.is_stopped()
     if not just_finished:
+        return
+
+    var did_complete_waypoints := _highest_waypoint_reached == waypoints.size() - 1
+    if not did_complete_waypoints:
+        cheated_label.show()
+        post_finish_timer.start()
         return
 
     var completion_time := _run_time_elapsed
@@ -214,7 +228,7 @@ func _on_win_zone_body_entered(body: Node3D) -> void:
     _update_completion_time_label(completion_time, is_new_record)
 
     _explode_confetti()
-    celebration_timer.start()
+    post_finish_timer.start()
 
 
 func _update_completion_time_label(completion_time: float, is_new_record: bool) -> void:
@@ -225,5 +239,12 @@ func _update_completion_time_label(completion_time: float, is_new_record: bool) 
     completion_time_label.show()
 
 
-func _on_celebration_timer_timeout() -> void:
+func _on_post_finish_timer_timeout() -> void:
     _reset_run()
+
+
+func _on_waypoint_reached(wp_idx: int) -> void:
+    var is_new_highest_waypoint := wp_idx == _highest_waypoint_reached + 1
+    if not is_new_highest_waypoint:
+        return
+    _highest_waypoint_reached = wp_idx
