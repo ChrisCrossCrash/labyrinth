@@ -1,4 +1,4 @@
-[gd_scene load_steps=115 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=116 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://fatmps1p33ff" path="res://assets/platform_plywood_rough_4k.png" id="9_dinhu"]
 [ext_resource type="Texture2D" uid="uid://ugfd52ubnyo7" path="res://assets/platform_plywood_nor_4k.png" id="10_kvuet"]
 [ext_resource type="Texture2D" uid="uid://cv0404ao4t878" path="res://assets/platform_plywood_diff_2k.jpg" id="11_trtic"]
+[ext_resource type="AudioStream" uid="uid://cfm724fmckhvx" path="res://assets/pixabay/1gift-confetti-447240.ogg" id="12_dinhu"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lbhrr"]
 panorama = ExtResource("2_lnu2h")
@@ -1520,4 +1521,12 @@ skeleton = NodePath("")
 mesh = SubResource("ArrayMesh_q8lo1")
 skeleton = NodePath("")
 
+[node name="WinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_dinhu")
+
+[node name="CelebrationTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
 [connection signal="body_entered" from="Platform/FloorHoles/WinZone" to="." method="_on_win_zone_body_entered"]
+[connection signal="timeout" from="CelebrationTimer" to="." method="_on_celebration_timer_timeout"]

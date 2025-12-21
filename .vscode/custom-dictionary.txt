@@ -12,6 +12,8 @@ lerp
 maxf
 minf
 onready
+randf
+randfn
 respawn
 stylebox
 subdirs

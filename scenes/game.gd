@@ -2,19 +2,23 @@ extends Node3D
 
 @onready var ball: RigidBody3D = $Ball
 @onready var fell_through_sound: AudioStreamPlayer3D = $FellThroughSound
+@onready var win_sound: AudioStreamPlayer = $WinSound
 @onready var camera: Camera3D = $Camera3D
+@onready var celebration_timer: Timer = $CelebrationTimer
+@onready var confetti_piece_scene = preload("res://scenes/confetti_piece.tscn")
 
 var _ball_start_pos: Vector3
 
 var _default_camera_pos: Vector3
 var _default_camera_basis: Basis
 var _default_camera_fov: float
+var _fall_through_handled: bool = false
 
 ## Target camera field-of-view (degrees) when fully zoomed.
 @export var zoom_fov_deg := 10.0
 
 ## How quickly the zoom blend reacts to changes in zoom input (higher = snappier).
-@export var zoom_strength_smooth := 14.0
+@export var zoom_strength_smooth := 5.0
 
 ## How quickly the camera rotates toward its target rotation (higher = snappier).
 @export var follow_rot_smooth := 50.0
@@ -27,6 +31,12 @@ var _default_camera_fov: float
 
 ## Maximum Y value for the followed target position (world-space).
 @export var look_y_max := 0.5
+
+## The number of confetti pieces spawned when the player wins
+@export var confetti_spawn_count := 600
+
+# Maximum confetti pieces to spawn per frame
+@export var confetti_spawn_rate := 25
 
 var _zoom_t := 0.0
 var _zoom_latched := false
@@ -53,6 +63,10 @@ func _input(event: InputEvent) -> void:
 
     if event.is_action_pressed("exit"):
         get_tree().quit()
+
+    if event.is_action_pressed("debug_1"):
+        if OS.is_debug_build():
+            _explode_confetti()
 
 
 func _process(delta: float) -> void:
@@ -89,20 +103,90 @@ func _update_camera_zoom(delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-    if ball.global_position.y < -1.0:
-        fell_through_sound.global_position = ball.global_position
-        fell_through_sound.play()
-        _reset_ball()
+    if ball.global_position.y < -1.0 and not _fall_through_handled:
+        _handle_ball_fall_through()
 
+
+func _handle_ball_fall_through() -> void:
+    # This get's unset by `_reset_ball()`
+    _fall_through_handled = true
+
+    fell_through_sound.global_position = ball.global_position
+    fell_through_sound.play()
+
+    # Do not reset in a celebration period.
+    # Let _on_celebration_timer_timeout() handle it.
+    var is_celebrating = not celebration_timer.is_stopped()
+    if not is_celebrating:
+        _reset_ball()
 
 ## Resets the ball position and clears its linear and angular velocity.
 func _reset_ball() -> void:
     ball.global_position = _ball_start_pos
     ball.linear_velocity = Vector3.ZERO
     ball.angular_velocity = Vector3.ZERO
+    _fall_through_handled = false
+
+
+func _explode_confetti() -> void:
+    win_sound.play()
+    _spawn_confetti_staggered(confetti_spawn_count)
+
+func _spawn_confetti_staggered(total_count: int) -> void:
+    var spawned := 0
+
+    while spawned < total_count:
+        var batch := mini(confetti_spawn_rate, total_count - spawned)
+
+        for _i in range(batch):
+            _spawn_one_confetti_piece()
+            spawned += 1
+
+        # Let the engine render/step a frame before continuing.
+        await get_tree().process_frame
+
+
+func _spawn_one_confetti_piece() -> void:
+    var piece := confetti_piece_scene.instantiate() as RigidBody3D
+    add_child(piece)
+
+    var pos_init := Vector3(0.8, 2.0, 0.0)
+    var pos_rand_offset_amt := 0.2
+    var pos_rand_offset := Vector3(
+        randfn(0.0, pos_rand_offset_amt),
+        randfn(0.0, pos_rand_offset_amt),
+        randfn(0.0, pos_rand_offset_amt)
+    )
+
+    piece.global_position = pos_init + pos_rand_offset
+
+    var rand_rotation := Vector3(randf() * TAU, randf() * TAU, randf() * TAU)
+    piece.rotation = rand_rotation
+
+    var vel_avg_init := Vector3(-1.5, -2.0, 0.0)
+    var vel_rand_offset_amt := 1.5
+    var vel_rand_offset := Vector3(
+        randfn(0.0, vel_rand_offset_amt),
+        randfn(0.0, vel_rand_offset_amt),
+        randfn(0.0, vel_rand_offset_amt)
+    )
+    piece.linear_velocity = vel_avg_init + vel_rand_offset
+
+    var rand_ang_vel_amt := 5.0
+    var rand_ang_vel := Vector3(
+        randfn(0.0, rand_ang_vel_amt),
+        randfn(0.0, rand_ang_vel_amt),
+        randfn(0.0, rand_ang_vel_amt)
+    )
+    piece.angular_velocity = rand_ang_vel
+
 
 
 func _on_win_zone_body_entered(body: Node3D) -> void:
     if body == ball:
-        print("You win!")
-        _reset_ball()
+        _explode_confetti()
+        celebration_timer.start()
+
+
+func _on_celebration_timer_timeout() -> void:
+    _reset_ball()

@@ -22,7 +22,7 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 - [x] Marble rolling sounds
 - [x] Marble falling through sound
 - [x] Marble wall collision sounds
-- [ ] Win detection and feedback
+- [x] Win detection and feedback
 - [ ] Timer integration
 - [x] Windows (x86_64) build
 - [x] ARM64 build (for Raspberry Pi)
