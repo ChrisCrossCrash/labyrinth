@@ -1525,8 +1525,27 @@ skeleton = NodePath("")
 stream = ExtResource("12_dinhu")
 
 [node name="CelebrationTimer" type="Timer" parent="."]
-wait_time = 6.0
+wait_time = 3.0
 one_shot = true
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="CompletionTimeLabel" type="Label" parent="Overlay"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -93.5
+offset_top = -90.0
+offset_right = 93.5
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You finished in 1:23.456!
+That's a new record!"
+horizontal_alignment = 1
 
 [connection signal="body_entered" from="Platform/FloorHoles/WinZone" to="." method="_on_win_zone_body_entered"]
 [connection signal="timeout" from="CelebrationTimer" to="." method="_on_celebration_timer_timeout"]

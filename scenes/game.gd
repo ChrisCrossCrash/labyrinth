@@ -5,14 +5,16 @@ extends Node3D
 @onready var win_sound: AudioStreamPlayer = $WinSound
 @onready var camera: Camera3D = $Camera3D
 @onready var celebration_timer: Timer = $CelebrationTimer
+@onready var completion_time_label: Label = $Overlay/CompletionTimeLabel
 @onready var confetti_piece_scene = preload("res://scenes/confetti_piece.tscn")
 
 var _ball_start_pos: Vector3
-
 var _default_camera_pos: Vector3
 var _default_camera_basis: Basis
 var _default_camera_fov: float
 var _fall_through_handled: bool = false
+var _run_time_elapsed := 0.0
+var _fastest_run_time := INF
 
 ## Target camera field-of-view (degrees) when fully zoomed.
 @export var zoom_fov_deg := 10.0
@@ -59,7 +61,7 @@ func _input(event: InputEvent) -> void:
         _zoom_latched = !_zoom_latched
 
     if event.is_action_pressed("reset"):
-        call_deferred("_reset_ball")
+        call_deferred("_reset_run")
 
     if event.is_action_pressed("exit"):
         get_tree().quit()
@@ -71,6 +73,15 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
     _update_camera_zoom(delta)
+    _update_timer(delta)
+
+
+func _update_timer(delta: float) -> void:
+    _run_time_elapsed += delta
+
+
+func _reset_timer() -> void:
+    _run_time_elapsed = 0.0
 
 
 ## Updates the camera's rotation and FOV based on zoom input, without changing camera position.
@@ -118,7 +129,7 @@ func _handle_ball_fall_through() -> void:
     # Let _on_celebration_timer_timeout() handle it.
     var is_celebrating = not celebration_timer.is_stopped()
     if not is_celebrating:
-        _reset_ball()
+        _reset_run()
 
 ## Resets the ball position and clears its linear and angular velocity.
 func _reset_ball() -> void:
@@ -126,6 +137,12 @@ func _reset_ball() -> void:
     ball.linear_velocity = Vector3.ZERO
     ball.angular_velocity = Vector3.ZERO
     _fall_through_handled = false
+
+
+func _reset_run() -> void:
+    _reset_ball()
+    _reset_timer()
+    completion_time_label.hide()
 
 
 func _explode_confetti() -> void:
@@ -181,12 +198,32 @@ func _spawn_one_confetti_piece() -> void:
     piece.angular_velocity = rand_ang_vel
 
 
-
 func _on_win_zone_body_entered(body: Node3D) -> void:
-    if body == ball:
-        _explode_confetti()
-        celebration_timer.start()
+    var just_finished := body == ball and celebration_timer.is_stopped()
+    if not just_finished:
+        return
+
+    var completion_time := _run_time_elapsed
+    var is_first_run := _fastest_run_time == INF
+    var is_new_record := (
+        completion_time < _fastest_run_time
+        and not is_first_run
+    )
+    if is_new_record or is_first_run:
+        _fastest_run_time = completion_time
+    _update_completion_time_label(completion_time, is_new_record)
+
+    _explode_confetti()
+    celebration_timer.start()
+
+
+func _update_completion_time_label(completion_time: float, is_new_record: bool) -> void:
+    var time_text := "Completion Time: %.2f seconds" % completion_time
+    if is_new_record:
+        time_text += "\nThat's a new record!"
+    completion_time_label.text = time_text
+    completion_time_label.show()
 
 
 func _on_celebration_timer_timeout() -> void:
-    _reset_ball()
+    _reset_run()
