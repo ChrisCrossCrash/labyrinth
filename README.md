@@ -27,6 +27,13 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 - [x] Windows (x86_64) build
 - [x] ARM64 build (for Raspberry Pi)
 
+**Polish steps:**
+- [ ] Improve confetti geometry
+- [ ] Split platform visible and collision meshes
+- [ ] Fix mismatched textures
+- [ ] Darken platform interior
+- [ ] Animate win label
+
 **Nice to haves:**
 - [x] Improved level geometry (outer frame and knobs, beveled edges, etc.)
 - [ ] Music
