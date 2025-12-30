@@ -17,7 +17,7 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 
 ## Roadmap
 
-**Must haves:**
+**Must-haves:**
 - [x] Platform surface markings
 - [x] Marble rolling sounds
 - [x] Marble falling through sound
@@ -27,16 +27,39 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 - [x] Windows (x86_64) build
 - [x] ARM64 build (for Raspberry Pi)
 - [x] Add checkpoints (cheat protection)
-
-**Polish steps:**
-- [ ] Improve confetti geometry
-- [ ] Split platform visible and collision meshes
-- [ ] Fix mismatched textures
-- [ ] Darken platform interior
-- [ ] Animate win label
-
-**Nice to haves:**
 - [x] Improved level geometry (outer frame and knobs, beveled edges, etc.)
+- [ ] Replace board/layout/visual identity with an original design
+  - [ ] Design new board layout on paper (1 h)
+  - [ ] 3D model new board in Blender (2 h)
+  - [ ] Create new textures / materials (2 h)
+  - [ ] Import new board into Godot (1 h)
+- [ ] Rename the game (30 min)
+- [ ] Design title logo (2 h)
+- [ ] Add a basic title screen (2 h)
+  - [ ] Title logo
+  - [ ] Start
+  - [ ] Settings
+  - [ ] Quit
+- [ ] Add basic settings menu (2 h)
+  - [ ] Fullscreen toggle
+  - [ ] Master volume
+- [ ] Add pause menu (2 h)
+  - [ ] Best time display (session and all-time)
+  - [ ] Resume
+  - [ ] Settings
+  - [ ] Quit game
+- [ ] Add help overlay with keybindings (1 h)
+- [ ] Separate all-time best and session best times (2 h)
+- [ ] In-game timer with visibility toggle (1 h)
+- [ ] Improve confetti geometry (1 h)
+- [ ] GUI animations (2 h)
+  - [ ] Title screen fade-out
+  - [ ] Win/cheat feedback animations
+
+**Ideas for the future:**
+- [ ] Multiple levels
+- [ ] Procedural level generation
+- [ ] Level selection menu
+- [ ] Leaderboards (local and online)
 - [ ] Music
-- [ ] Mobile app build
-- [ ] Web build
+- [ ] Tabletop settings (outdoors, living room, etc. It would affect environmental lighting, sounds, and objects around the table)
