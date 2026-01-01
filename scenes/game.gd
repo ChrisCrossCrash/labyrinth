@@ -69,9 +69,6 @@ func _input(event: InputEvent) -> void:
     if event.is_action_pressed("reset"):
         call_deferred("_reset_run")
 
-    if event.is_action_pressed("exit"):
-        get_tree().quit()
-
     if event.is_action_pressed("debug_1"):
         if OS.is_debug_build():
             _explode_confetti()

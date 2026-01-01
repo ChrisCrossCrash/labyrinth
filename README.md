@@ -40,14 +40,16 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
   - [ ] Start
   - [ ] Settings
   - [ ] Quit
-- [ ] Add basic settings menu (2 h)
-  - [ ] Fullscreen toggle
+- [x] Add basic settings menu (2 h)
+  - [x] Fullscreen toggle
+  - [x] SSAO toggle
+  - [x] SSR toggle
   - [ ] Master volume
 - [ ] Add pause menu (2 h)
   - [ ] Best time display (session and all-time)
-  - [ ] Resume
-  - [ ] Settings
-  - [ ] Quit game
+  - [x] Resume
+  - [x] Settings
+  - [x] Quit game
 - [ ] Add help overlay with keybindings (1 h)
 - [ ] Separate all-time best and session best times (2 h)
 - [ ] In-game timer with visibility toggle (1 h)
