@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=131 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -14,6 +14,19 @@
 [ext_resource type="AudioStream" uid="uid://cfm724fmckhvx" path="res://assets/pixabay/1gift-confetti-447240.ogg" id="12_dinhu"]
 [ext_resource type="PackedScene" uid="uid://tfo73i6wm8rx" path="res://scenes/waypoint.tscn" id="13_kvuet"]
 [ext_resource type="Script" uid="uid://dapux57kem0bs" path="res://scenes/pause_overlay.gd" id="14_trtic"]
+[ext_resource type="Texture2D" uid="uid://d2e8u1080jfc" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_w_outline.svg" id="15_ssvqc"]
+[ext_resource type="Texture2D" uid="uid://d3gcqf1j1tjat" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_a_outline.svg" id="16_264po"]
+[ext_resource type="Texture2D" uid="uid://on0sbfap5kie" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_s_outline.svg" id="17_1kice"]
+[ext_resource type="Texture2D" uid="uid://dbt3qy1w1wplc" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_d_outline.svg" id="18_5newe"]
+[ext_resource type="Texture2D" uid="uid://dlpw85r78wlok" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_space_outline.svg" id="19_264po"]
+[ext_resource type="Texture2D" uid="uid://v7b2gr6nqgg0" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_e_outline.svg" id="20_1kice"]
+[ext_resource type="Texture2D" uid="uid://b6bumhtocn5at" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_r_outline.svg" id="21_bt5mj"]
+[ext_resource type="Texture2D" uid="uid://c53ppcj3v1ctu" path="res://assets/kenney_input-prompts_1.4.1/Keyboard & Mouse/Vector/keyboard_escape_outline.svg" id="22_e1j6l"]
+[ext_resource type="Texture2D" uid="uid://b2sm0s8vcnlrl" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_stick_l.svg" id="23_pl11u"]
+[ext_resource type="Texture2D" uid="uid://bgwx0a877vjfo" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_rt_outline.svg" id="24_bhx41"]
+[ext_resource type="Texture2D" uid="uid://dxnjnix6ms0ym" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_rb_outline.svg" id="25_qnb83"]
+[ext_resource type="Texture2D" uid="uid://dhru6q3n4xrqo" path="res://assets/kenney_input-prompts_1.4.1/Nintendo Switch 2/Vector/switch_buttons_down_outline.svg" id="26_qnb83"]
+[ext_resource type="Texture2D" uid="uid://dom55rk4j2j2u" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_button_menu_outline.svg" id="26_sww3w"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lbhrr"]
 panorama = ExtResource("2_lnu2h")
@@ -1593,6 +1606,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PauseMenuVBoxContainer" type="VBoxContainer" parent="PauseOverlay"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1618,6 +1632,10 @@ horizontal_alignment = 1
 [node name="ResumeButton" type="Button" parent="PauseOverlay/PauseMenuVBoxContainer" groups=["gamepad_focusable"]]
 layout_mode = 2
 text = "Resume"
+
+[node name="ControlsButton" type="Button" parent="PauseOverlay/PauseMenuVBoxContainer" groups=["gamepad_focusable"]]
+layout_mode = 2
+text = "Controls"
 
 [node name="SettingsButton" type="Button" parent="PauseOverlay/PauseMenuVBoxContainer" groups=["gamepad_focusable"]]
 layout_mode = 2
@@ -1664,9 +1682,194 @@ text = "SSAO"
 layout_mode = 2
 text = "SSR"
 
+[node name="ControlsOverlay" type="Control" parent="PauseOverlay"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MKControlsVBoxContainer" type="VBoxContainer" parent="PauseOverlay/ControlsOverlay"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 436.5
+offset_top = 216.0
+offset_right = 675.5
+offset_bottom = 392.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="WTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("15_ssvqc")
+expand_mode = 4
+
+[node name="ATextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("16_264po")
+expand_mode = 4
+
+[node name="STextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("17_1kice")
+expand_mode = 4
+
+[node name="DTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("18_5newe")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer"]
+layout_mode = 2
+text = "Tilt"
+
+[node name="HFlowContainer2" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="SpaceTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("19_264po")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer2"]
+layout_mode = 2
+text = "Zoom (hold)"
+
+[node name="HFlowContainer3" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="ETextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer3"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("20_1kice")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer3"]
+layout_mode = 2
+text = "Zoom (toggle)"
+
+[node name="HFlowContainer4" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="RTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("21_bt5mj")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer4"]
+layout_mode = 2
+text = "Restart"
+
+[node name="HFlowContainer5" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="EscTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("22_e1j6l")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/MKControlsVBoxContainer/HFlowContainer5"]
+layout_mode = 2
+text = "Pause"
+
+[node name="GamepadControlsVBoxContainer" type="VBoxContainer" parent="PauseOverlay/ControlsOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 436.5
+offset_top = 216.0
+offset_right = 675.5
+offset_bottom = 392.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="LJoyTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("23_pl11u")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer"]
+layout_mode = 2
+text = "Tilt"
+
+[node name="HFlowContainer2" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="RTTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer2"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("24_bhx41")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer2"]
+layout_mode = 2
+text = "Zoom (hold)"
+
+[node name="HFlowContainer3" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="RBTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer3"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("25_qnb83")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer3"]
+layout_mode = 2
+text = "Zoom (toggle)"
+
+[node name="HFlowContainer4" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="RTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer4"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("26_qnb83")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer4"]
+layout_mode = 2
+text = "Restart"
+
+[node name="HFlowContainer5" type="HFlowContainer" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer"]
+layout_mode = 2
+
+[node name="EscTextureRect" type="TextureRect" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer5"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("26_sww3w")
+expand_mode = 4
+
+[node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer5"]
+layout_mode = 2
+text = "Pause"
+
 [connection signal="body_entered" from="Platform/FloorHoles/WinZone" to="." method="_on_win_zone_body_entered"]
 [connection signal="timeout" from="PostFinishTimer" to="." method="_on_post_finish_timer_timeout"]
 [connection signal="pressed" from="PauseOverlay/PauseMenuVBoxContainer/ResumeButton" to="PauseOverlay" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseOverlay/PauseMenuVBoxContainer/ControlsButton" to="PauseOverlay" method="_on_controls_button_pressed"]
 [connection signal="pressed" from="PauseOverlay/PauseMenuVBoxContainer/SettingsButton" to="PauseOverlay" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="PauseOverlay/PauseMenuVBoxContainer/QuitButton" to="PauseOverlay" method="_on_quit_button_pressed"]
 [connection signal="toggled" from="PauseOverlay/SettingsVBoxContainer/FullscreenCheckButton" to="PauseOverlay" method="_on_fullscreen_check_button_toggled"]

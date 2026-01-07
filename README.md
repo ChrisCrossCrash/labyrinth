@@ -50,7 +50,7 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
   - [x] Resume
   - [x] Settings
   - [x] Quit game
-- [ ] Add help overlay with keybindings (1 h)
+- [x] Add help overlay with keybindings (1 h)
 - [ ] Separate all-time best and session best times (2 h)
 - [ ] In-game timer with visibility toggle (1 h)
 - [ ] Improve confetti geometry (1 h)
