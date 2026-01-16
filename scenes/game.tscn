@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=132 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://dxnjnix6ms0ym" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_rb_outline.svg" id="25_qnb83"]
 [ext_resource type="Texture2D" uid="uid://dhru6q3n4xrqo" path="res://assets/kenney_input-prompts_1.4.1/Nintendo Switch 2/Vector/switch_buttons_down_outline.svg" id="26_qnb83"]
 [ext_resource type="Texture2D" uid="uid://dom55rk4j2j2u" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_button_menu_outline.svg" id="26_sww3w"]
+[ext_resource type="Script" uid="uid://bpa10u0saubna" path="res://scenes/title_screen.gd" id="28_sww3w"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lbhrr"]
 panorama = ExtResource("2_lnu2h")
@@ -1867,6 +1868,7 @@ layout_mode = 2
 text = "Pause"
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
+script = ExtResource("28_sww3w")
 
 [node name="Panel" type="Panel" parent="TitleScreen"]
 anchors_preset = 15
@@ -1917,3 +1919,4 @@ one_shot = true
 [connection signal="toggled" from="PauseOverlay/SettingsVBoxContainer/FullscreenCheckButton" to="PauseOverlay" method="_on_fullscreen_check_button_toggled"]
 [connection signal="toggled" from="PauseOverlay/SettingsVBoxContainer/SSAOCheckButton" to="PauseOverlay" method="_on_ssao_check_button_toggled"]
 [connection signal="toggled" from="PauseOverlay/SettingsVBoxContainer/SSRCheckButton" to="PauseOverlay" method="_on_ssr_check_button_toggled"]
+[connection signal="game_started" from="TitleScreen" to="." method="_on_title_screen_game_started"]

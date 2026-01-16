@@ -9,12 +9,7 @@ extends Node3D
 @onready var cheated_label: Label = $Overlay/CheatedLabel
 @onready var waypoints := $Platform/Waypoints.get_children()
 @onready var confetti_piece_scene = preload("res://scenes/confetti_piece.tscn")
-@onready var title_screen: CanvasLayer = $TitleScreen
-
-## A short timer to ignore space bar input after the game is started so that
-## the game doesn't immediately zoom when the player presses the spacebar to
-## start the game.
-@onready var space_bar_ignore_timer: Timer = $TitleScreen/SpacebarIgnoreTimer
+@onready var title_screen: TitleScreen = $TitleScreen
 
 var _ball_start_pos: Vector3
 var _default_camera_pos: Vector3
@@ -56,6 +51,8 @@ var _smoothed_look_target: Vector3
 
 
 func _ready() -> void:
+    title_screen.begin()
+
     _ball_start_pos = ball.global_position
 
     _default_camera_pos = camera.global_position
@@ -69,12 +66,7 @@ func _ready() -> void:
         wp.connect("waypoint_reached", _on_waypoint_reached)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-    if not _is_game_started:
-        if event.is_pressed():
-            _exit_title_screen_and_start_game()
-        return
-
+func _input(event: InputEvent) -> void:
     if event.is_action_pressed("zoom_toggle"):
         _zoom_latched = !_zoom_latched
 
@@ -104,8 +96,6 @@ func _update_camera_zoom(delta: float) -> void:
     camera.global_position = _default_camera_pos
 
     var zoom_strength := Input.get_action_strength("zoom")
-    if not space_bar_ignore_timer.is_stopped():
-        zoom_strength = 0.0
     var zoom_target := 1.0 if _zoom_latched else zoom_strength
 
     var zw := 1.0 - exp(-zoom_strength_smooth * delta)
@@ -159,6 +149,7 @@ func _reset_ball() -> void:
 func _reset_run() -> void:
     _reset_ball()
     _reset_timer()
+    post_finish_timer.stop()
     completion_time_label.hide()
     cheated_label.hide()
     _highest_waypoint_reached = -1
@@ -262,6 +253,10 @@ func _on_waypoint_reached(wp_idx: int) -> void:
 
 
 func _exit_title_screen_and_start_game() -> void:
-    space_bar_ignore_timer.start()
     title_screen.hide()
     _is_game_started = true
+
+
+func _on_title_screen_game_started() -> void:
+    _is_game_started = true
+    get_tree().paused = false
