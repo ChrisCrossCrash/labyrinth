@@ -76,7 +76,7 @@ albedo_texture = SubResource("GradientTexture2D_kvpfn")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kvuet"]
 material = SubResource("StandardMaterial3D_dinhu")
-size = Vector2(20, 20)
+size = Vector2(40, 40)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymjr3"]
 resource_name = "plywood-with-overlay-baked"
@@ -1186,6 +1186,9 @@ stream = ExtResource("5_0tnpc")
 
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("6_suyxu")
+orbit_local_offset = Vector3(0, 2.515, 2.555)
+orbit_look_target = Vector3(0, -0.325, 0)
+orbit_fov_deg = 38.06
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
 transform = Transform3D(1, 0, 0, 0, 0.46484205, 0.8853936, 0, -0.8853936, 0.46484205, 0, 3.052, 1.905)
