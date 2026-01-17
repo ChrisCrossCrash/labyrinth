@@ -2,23 +2,16 @@ extends Node3D
 
 const FALL_Y_THRESHOLD := -1.0
 
-## The number of confetti pieces spawned when the player wins
-@export var confetti_spawn_count := 600
-
-## Maximum confetti pieces to spawn per frame
-@export var confetti_spawn_rate := 25
-
 @onready var ball: RigidBody3D = $Ball
 @onready var fell_through_sound: AudioStreamPlayer3D = $FellThroughSound
 @onready var win_sound: AudioStreamPlayer = $WinSound
 @onready var post_finish_timer: Timer = $PostFinishTimer
+@onready var confetti_spawner: ConfettiSpawner = $ConfettiSpawner
 
 @onready var completion_time_label: Label = $Overlay/CompletionTimeLabel
 @onready var cheated_label: Label = $Overlay/CheatedLabel
 
 @onready var waypoints: Array[Node] = $Platform/Waypoints.get_children()
-@onready var confetti_piece_scene: PackedScene = preload("res://scenes/confetti_piece.tscn")
-@onready var title_screen: TitleScreen = $TitleScreen
 
 var _ball_start_pos: Vector3
 var _fall_through_handled := false
@@ -28,8 +21,6 @@ var _highest_waypoint_reached := -1
 
 
 func _ready() -> void:
-    title_screen.begin()
-
     _ball_start_pos = ball.global_position
 
     for wp: Area3D in waypoints:
@@ -93,56 +84,7 @@ func _reset_timer() -> void:
 
 func _explode_confetti() -> void:
     win_sound.play()
-    _spawn_confetti_staggered(confetti_spawn_count)
-
-
-func _spawn_confetti_staggered(total_count: int) -> void:
-    var spawned := 0
-
-    while spawned < total_count:
-        var batch := mini(confetti_spawn_rate, total_count - spawned)
-
-        for _i in range(batch):
-            _spawn_one_confetti_piece()
-            spawned += 1
-
-        # Let the engine render/step a frame before continuing.
-        await get_tree().process_frame
-
-
-func _spawn_one_confetti_piece() -> void:
-    var piece := confetti_piece_scene.instantiate() as RigidBody3D
-    add_child(piece)
-
-    var pos_init := Vector3(0.8, 2.0, 0.0)
-    var pos_rand_offset_amt := 0.2
-    var pos_rand_offset := Vector3(
-        randfn(0.0, pos_rand_offset_amt),
-        randfn(0.0, pos_rand_offset_amt),
-        randfn(0.0, pos_rand_offset_amt)
-    )
-
-    piece.global_position = pos_init + pos_rand_offset
-
-    var rand_rotation := Vector3(randf() * TAU, randf() * TAU, randf() * TAU)
-    piece.rotation = rand_rotation
-
-    var vel_avg_init := Vector3(-1.5, -2.0, 0.0)
-    var vel_rand_offset_amt := 1.5
-    var vel_rand_offset := Vector3(
-        randfn(0.0, vel_rand_offset_amt),
-        randfn(0.0, vel_rand_offset_amt),
-        randfn(0.0, vel_rand_offset_amt)
-    )
-    piece.linear_velocity = vel_avg_init + vel_rand_offset
-
-    var rand_ang_vel_amt := 5.0
-    var rand_ang_vel := Vector3(
-        randfn(0.0, rand_ang_vel_amt),
-        randfn(0.0, rand_ang_vel_amt),
-        randfn(0.0, rand_ang_vel_amt)
-    )
-    piece.angular_velocity = rand_ang_vel
+    confetti_spawner.explode()
 
 
 func _on_win_zone_body_entered(body: Node3D) -> void:
@@ -176,10 +118,6 @@ func _update_completion_time_label(completion_time: float, is_new_record: bool) 
         time_text += "\nThat's a new record!"
     completion_time_label.text = time_text
     completion_time_label.show()
-
-
-func _exit_title_screen_and_start_game() -> void:
-    title_screen.hide()
 
 
 func _on_post_finish_timer_timeout() -> void:
