@@ -19,8 +19,8 @@ func _ready() -> void:
     spacebar_ignore_timer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
 
+## Call this from the main game to show title + pause the world.
 func begin() -> void:
-    # Call this from the main game to show title + pause the world.
     _has_started = false
     show()
     get_tree().paused = true

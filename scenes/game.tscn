@@ -1,4 +1,4 @@
-[gd_scene load_steps=132 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=133 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://dljfce0kglpdw" path="res://assets/pixabay/ball-on-table-17825-modified-for-looping.ogg" id="4_gee14"]
 [ext_resource type="AudioStream" uid="uid://cibdf7qdqqnow" path="res://assets/pixabay/ball-in-hole-99750-modified-hit-wall.ogg" id="5_0tnpc"]
 [ext_resource type="Script" uid="uid://cams46q5qmm52" path="res://scenes/platform.gd" id="5_iywne"]
+[ext_resource type="Script" uid="uid://x6itxr83vx37" path="res://scenes/camera_rig.gd" id="6_suyxu"]
 [ext_resource type="AudioStream" uid="uid://3udbnk3dkqx7" path="res://assets/pixabay/ball-in-hole-99750-modified-fell-through.ogg" id="8_gee14"]
 [ext_resource type="Texture2D" uid="uid://bp3pt4rfd2bxm" path="res://assets/platform_platform-albedo-baked-4k.png" id="8_kvpfn"]
 [ext_resource type="Texture2D" uid="uid://fatmps1p33ff" path="res://assets/platform_plywood_rough_4k.png" id="9_dinhu"]
@@ -1183,7 +1184,10 @@ autoplay = true
 [node name="BallHitWallSound" type="AudioStreamPlayer3D" parent="Ball"]
 stream = ExtResource("5_0tnpc")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("6_suyxu")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
 transform = Transform3D(1, 0, 0, 0, 0.46484205, 0.8853936, 0, -0.8853936, 0.46484205, 0, 3.052, 1.905)
 fov = 37.0
 

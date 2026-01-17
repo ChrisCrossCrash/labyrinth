@@ -1,5 +1,14 @@
 extends CanvasLayer
 
+enum OverlayMode { HIDDEN, PAUSED, SETTINGS, CONTROLS }
+
+@export var is_fullscreen := false:
+    get:
+        return DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+    set(value):
+        _set_fullscreen(value)
+        fullscreen_check_button.set_pressed_no_signal(value)
+
 @onready var pause_menu: VBoxContainer = $PauseMenuVBoxContainer
 @onready var settings_menu: VBoxContainer = $SettingsVBoxContainer
 @onready var controls_overlay: Control = $ControlsOverlay
@@ -11,22 +20,8 @@ extends CanvasLayer
 @onready var ssr_check_button: CheckButton = $SettingsVBoxContainer/SSRCheckButton
 @onready var resume_button: Button = $PauseMenuVBoxContainer/ResumeButton
 
-@export var is_fullscreen := false:
-    get:
-        return DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
-    set(value):
-        _set_fullscreen(value)
-        fullscreen_check_button.set_pressed_no_signal(value)
-
 var _current_overlay_mode: OverlayMode = OverlayMode.HIDDEN
 var _world_env: WorldEnvironment
-
-enum OverlayMode {
-    HIDDEN,
-    PAUSED,
-    SETTINGS,
-    CONTROLS,
-}
 
 
 func _ready() -> void:
@@ -88,30 +83,6 @@ func _set_overlay_mode(mode: OverlayMode) -> void:
             return
 
 
-func _on_resume_button_pressed() -> void:
-    _set_overlay_mode(OverlayMode.HIDDEN)
-
-
-func _on_settings_button_pressed() -> void:
-    _set_overlay_mode(OverlayMode.SETTINGS)
-
-
-func _on_quit_button_pressed() -> void:
-    get_tree().quit()
-
-
-func _on_ssao_check_button_toggled(toggled_on: bool) -> void:
-    _world_env.environment.ssao_enabled = toggled_on
-
-
-func _on_ssr_check_button_toggled(toggled_on: bool) -> void:
-    _world_env.environment.ssr_enabled = toggled_on
-
-
-func _on_fullscreen_check_button_toggled(toggled_on: bool) -> void:
-    _set_fullscreen(toggled_on)
-
-
 func _set_fullscreen(wants_fullscreen: bool) -> void:
     # We have to disable input monitoring before switching to fullscreen,
     # and then re-enable it after because otherwise the mouse's new position
@@ -124,11 +95,6 @@ func _set_fullscreen(wants_fullscreen: bool) -> void:
         DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
     await get_tree().process_frame
     InputModeManager.is_monitoring = true
-
-
-func _on_input_mode_changed(input_mode: InputModeManager.InputMode) -> void:
-    _calculate_focus_mode(input_mode)
-    _show_control_scheme(input_mode)
 
 
 ## Sets whether or not the focus will be shown on the pause screen menu,
@@ -153,6 +119,34 @@ func _show_control_scheme(input_mode: InputModeManager.InputMode) -> void:
         gamepad_controls_overlay.show()
 
 
+func _on_resume_button_pressed() -> void:
+    _set_overlay_mode(OverlayMode.HIDDEN)
+
 
 func _on_controls_button_pressed() -> void:
     _set_overlay_mode(OverlayMode.CONTROLS)
+
+
+func _on_settings_button_pressed() -> void:
+    _set_overlay_mode(OverlayMode.SETTINGS)
+
+
+func _on_quit_button_pressed() -> void:
+    get_tree().quit()
+
+
+func _on_ssao_check_button_toggled(toggled_on: bool) -> void:
+    _world_env.environment.ssao_enabled = toggled_on
+
+
+func _on_ssr_check_button_toggled(toggled_on: bool) -> void:
+    _world_env.environment.ssr_enabled = toggled_on
+
+
+func _on_fullscreen_check_button_toggled(toggled_on: bool) -> void:
+    _set_fullscreen(toggled_on)
+
+
+func _on_input_mode_changed(input_mode: InputModeManager.InputMode) -> void:
+    _calculate_focus_mode(input_mode)
+    _show_control_scheme(input_mode)

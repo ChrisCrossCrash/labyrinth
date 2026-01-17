@@ -9,6 +9,7 @@ floori
 fmod
 focusable
 Incentivized
+Joypad
 lerp
 lerpf
 maxf

@@ -3,8 +3,8 @@ extends Node3D
 @export var angle_max_deg := 20.0
 @export var tilt_rate := 2.0
 
-@onready var platform := $FloorHoles
-@onready var xpivot := $Shell_xpivot
+@onready var platform: MeshInstance3D = $FloorHoles
+@onready var xpivot: MeshInstance3D = $Shell_xpivot
 
 func _process(delta: float) -> void:
     var input_joy := Input.get_vector("forward", "backward", "right", "left")
