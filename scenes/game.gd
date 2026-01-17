@@ -31,7 +31,7 @@ func _input(event: InputEvent) -> void:
     if event.is_action_pressed("debug_1"):
         if OS.is_debug_build():
             print("exploding confetti...")
-            _explode_confetti()
+            confetti_spawner.explode()
 
 
 func _process(delta: float) -> void:
@@ -82,11 +82,6 @@ func _reset_timer() -> void:
     _run_time_elapsed = 0.0
 
 
-func _explode_confetti() -> void:
-    win_sound.play()
-    confetti_spawner.explode()
-
-
 func _on_win_zone_body_entered(body: Node3D) -> void:
     var just_finished := body == ball and post_finish_timer.is_stopped()
     if not just_finished:
@@ -108,7 +103,9 @@ func _on_win_zone_body_entered(body: Node3D) -> void:
         _fastest_run_time = completion_time
     _update_completion_time_label(completion_time, is_new_record)
 
-    _explode_confetti()
+    win_sound.play()
+    confetti_spawner.explode()
+
     post_finish_timer.start()
 
 
