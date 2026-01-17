@@ -5,12 +5,14 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 ![Screenshot](docs/screenshot.jpg)
 
 ## Features
+
 - Simple tilt-based platform using exported variables for quick tuning
 - Smooth interpolation toward target tilt
 - Auto-reset when the ball falls off the board
 - Clean, minimal scene setup
 
 ## Controls
+
 - Tilt: WASD, arrow keys, or gamepad stick
 - Reset: Spacebar or gamepad button 0 (Xbox A)
 - Quit: Escape or gamepad button 6 (Xbox start)
@@ -18,6 +20,7 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
 ## Roadmap
 
 **Must-haves:**
+
 - [x] Platform surface markings
 - [x] Marble rolling sounds
 - [x] Marble falling through sound
@@ -59,6 +62,7 @@ A tiny remake of the classic Labyrinth tilt-and-roll game built with Godot. You 
   - [ ] Win/cheat feedback animations
 
 **Ideas for the future:**
+
 - [ ] Multiple levels
 - [ ] Procedural level generation
 - [ ] Level selection menu
