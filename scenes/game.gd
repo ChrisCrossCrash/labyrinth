@@ -70,6 +70,11 @@ func _transition_to(new_state: GameState) -> void:
     if new_state == _game_state:
         return
 
+    if OS.is_debug_build():
+        var old_state_str: String = GameState.keys()[_game_state]
+        var new_state_str: String = GameState.keys()[new_state]
+        print("Transitioning from " + old_state_str + " to " + new_state_str)
+
     _on_state_exit(_game_state)
     _game_state = new_state
     _on_state_enter(_game_state)
