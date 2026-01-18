@@ -8,7 +8,7 @@ enum GameState {
 
 const FALL_Y_THRESHOLD := -1.0
 
-@onready var ball: RigidBody3D = $Ball
+@onready var ball: Ball = $Ball
 @onready var fell_through_sound: AudioStreamPlayer3D = $FellThroughSound
 @onready var win_sound: AudioStreamPlayer = $WinSound
 @onready var post_finish_timer: Timer = $PostFinishTimer
