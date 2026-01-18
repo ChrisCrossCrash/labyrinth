@@ -1,5 +1,11 @@
 extends Node3D
 
+enum GameState {
+    IN_PROGRESS,
+    CELEBRATING,
+    CHEATED_FINISH,
+}
+
 const FALL_Y_THRESHOLD := -1.0
 
 @onready var ball: RigidBody3D = $Ball
@@ -13,11 +19,16 @@ const FALL_Y_THRESHOLD := -1.0
 
 @onready var waypoints: Array[Node] = $Platform/Waypoints.get_children()
 
+var _game_state: GameState = GameState.IN_PROGRESS
 var _ball_start_pos: Vector3
 var _fall_through_handled := false
 var _run_time_elapsed := 0.0
 var _fastest_run_time := INF
 var _highest_waypoint_reached := -1
+
+# Cached “payload” for the CELEBRATING state.
+var _celebration_time := 0.0
+var _celebration_is_new_record := false
 
 
 func _ready() -> void:
@@ -25,6 +36,9 @@ func _ready() -> void:
 
     for wp: Area3D in waypoints:
         wp.connect("waypoint_reached", _on_waypoint_reached)
+
+    # Ensure initial state is applied consistently.
+    _transition_to(GameState.IN_PROGRESS)
 
 
 func _input(event: InputEvent) -> void:
@@ -35,11 +49,9 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
-    _update_timer(delta)
-
-
-func _update_timer(delta: float) -> void:
-    _run_time_elapsed += delta
+    # Timer only runs during the active run.
+    if _game_state == GameState.IN_PROGRESS:
+        _run_time_elapsed += delta
 
 
 func _physics_process(_delta: float) -> void:
@@ -47,19 +59,46 @@ func _physics_process(_delta: float) -> void:
         _handle_ball_fall_through()
 
 
-func _handle_ball_fall_through() -> void:
-    # This gets unset by `_reset_ball()`
-    _fall_through_handled = true
+# -------------------------
+# FSM core
+# -------------------------
 
-    fell_through_sound.global_position = ball.global_position
-    fell_through_sound.play()
+func _transition_to(new_state: GameState) -> void:
+    if new_state == _game_state:
+        return
 
-    # Do not reset in a celebration period.
-    # Let _on_celebration_timer_timeout() handle it.
-    var is_post_finish = not post_finish_timer.is_stopped()
-    if not is_post_finish:
-        _reset_run()
+    _on_state_exit(_game_state)
+    _game_state = new_state
+    _on_state_enter(_game_state)
 
+
+func _on_state_enter(state: GameState) -> void:
+    match state:
+        GameState.IN_PROGRESS:
+            _reset_run()
+
+        GameState.CELEBRATING:
+            _update_completion_time_label(_celebration_time, _celebration_is_new_record)
+            post_finish_timer.start()
+
+        GameState.CHEATED_FINISH:
+            cheated_label.show()
+            post_finish_timer.start()
+
+
+func _on_state_exit(state: GameState) -> void:
+    match state:
+        GameState.IN_PROGRESS:
+            pass
+
+        GameState.CELEBRATING, GameState.CHEATED_FINISH:
+            # Nothing special right now, but this is where you’d stop VFX, etc.
+            pass
+
+
+# -------------------------
+# Run lifecycle helpers
+# -------------------------
 
 func _reset_run() -> void:
     _reset_ball()
@@ -82,31 +121,49 @@ func _reset_timer() -> void:
     _run_time_elapsed = 0.0
 
 
+func _handle_ball_fall_through() -> void:
+    # This gets unset by `_reset_ball()`
+    _fall_through_handled = true
+
+    fell_through_sound.global_position = ball.global_position
+    fell_through_sound.play()
+
+    # Only reset immediately during active play.
+    # In end states, let the post_finish_timer bring us back to IN_PROGRESS.
+    if _game_state == GameState.IN_PROGRESS:
+        _reset_run()
+
+
+# -------------------------
+# Events / signals
+# -------------------------
+
 func _on_win_zone_body_entered(body: Node3D) -> void:
-    var just_finished := body == ball and post_finish_timer.is_stopped()
-    if not just_finished:
+    # Only allow finishing from active gameplay (prevents retriggering in end states).
+    if _game_state != GameState.IN_PROGRESS:
+        return
+    if body != ball:
         return
 
     var did_complete_waypoints := _highest_waypoint_reached == waypoints.size() - 1
     if not did_complete_waypoints:
-        cheated_label.show()
-        post_finish_timer.start()
+        _transition_to(GameState.CHEATED_FINISH)
         return
 
+    # Compute record info before transitioning (payload for CELEBRATING).
     var completion_time := _run_time_elapsed
     var is_first_run := _fastest_run_time == INF
-    var is_new_record := (
-        completion_time < _fastest_run_time
-        and not is_first_run
-    )
+    var is_new_record := (completion_time < _fastest_run_time and not is_first_run)
     if is_new_record or is_first_run:
         _fastest_run_time = completion_time
-    _update_completion_time_label(completion_time, is_new_record)
+
+    _celebration_time = completion_time
+    _celebration_is_new_record = is_new_record
 
     win_sound.play()
     confetti_spawner.explode()
 
-    post_finish_timer.start()
+    _transition_to(GameState.CELEBRATING)
 
 
 func _update_completion_time_label(completion_time: float, is_new_record: bool) -> void:
@@ -118,7 +175,8 @@ func _update_completion_time_label(completion_time: float, is_new_record: bool) 
 
 
 func _on_post_finish_timer_timeout() -> void:
-    _reset_run()
+    # End states always return to gameplay via the FSM.
+    _transition_to(GameState.IN_PROGRESS)
 
 
 func _on_waypoint_reached(wp_idx: int) -> void:
