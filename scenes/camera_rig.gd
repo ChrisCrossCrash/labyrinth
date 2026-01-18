@@ -147,9 +147,6 @@ func _input(event: InputEvent) -> void:
     if event.is_action_pressed("zoom_toggle"):
         _zoom_latched = !_zoom_latched
 
-    if event.is_action_pressed("reset"):
-        call_deferred("_reset_run")
-
 
 ## Enables or disables orbiting mode.
 ##

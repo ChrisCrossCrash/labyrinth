@@ -47,6 +47,9 @@ func _input(event: InputEvent) -> void:
             print("exploding confetti...")
             confetti_spawner.explode()
 
+    if event.is_action_pressed("reset"):
+        call_deferred("_reset_run")
+
 
 func _process(delta: float) -> void:
     # Timer only runs during the active run.
