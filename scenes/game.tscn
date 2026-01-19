@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=4 uid="uid://bqesll55j75wo"]
+[gd_scene load_steps=134 format=4 uid="uid://bqesll55j75wo"]
 
 [ext_resource type="Script" uid="uid://dhw75wjvxagp" path="res://scenes/game.gd" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://ck4etnvxs0mqe" path="res://assets/polyhaven/empty_play_room_1k.hdr" id="2_lnu2h"]
@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://dxnjnix6ms0ym" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_rb_outline.svg" id="25_qnb83"]
 [ext_resource type="Texture2D" uid="uid://dhru6q3n4xrqo" path="res://assets/kenney_input-prompts_1.4.1/Nintendo Switch 2/Vector/switch_buttons_down_outline.svg" id="26_qnb83"]
 [ext_resource type="Texture2D" uid="uid://dom55rk4j2j2u" path="res://assets/kenney_input-prompts_1.4.1/Xbox Series/Vector/xbox_button_menu_outline.svg" id="26_sww3w"]
+[ext_resource type="Script" uid="uid://bpa10u0saubna" path="res://scenes/title_screen.gd" id="29_sgl2t"]
 [ext_resource type="Script" uid="uid://8ssf3erif5mg" path="res://scenes/confetti_spawner.gd" id="29_suyxu"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lbhrr"]
@@ -1873,6 +1874,31 @@ expand_mode = 4
 [node name="Label" type="Label" parent="PauseOverlay/ControlsOverlay/GamepadControlsVBoxContainer/HFlowContainer5"]
 layout_mode = 2
 text = "Pause"
+
+[node name="TitleScreen" type="CanvasLayer" parent="."]
+script = ExtResource("29_sgl2t")
+
+[node name="FadeItems" type="Control" parent="TitleScreen"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="TitleScreen/FadeItems"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 407.0
+offset_top = 260.0
+offset_right = 705.0
+offset_bottom = 348.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Labyrinth"
 
 [node name="ConfettiSpawner" type="Node3D" parent="."]
 script = ExtResource("29_suyxu")

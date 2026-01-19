@@ -18,6 +18,7 @@ const FALL_Y_THRESHOLD := -1.0
 @onready var completion_time_label: Label = $Overlay/CompletionTimeLabel
 @onready var cheated_label: Label = $Overlay/CheatedLabel
 @onready var camera_rig: CameraRig = $CameraRig
+@onready var title_screen: TitleScreen = $TitleScreen
 
 @onready var waypoints: Array[Node] = $Platform/Waypoints.get_children()
 
@@ -109,13 +110,14 @@ func _on_state_exit(state: GameState) -> void:
         GameState.NOT_STARTED:
             camera_rig.set_is_orbiting(false)
             ball.freeze = false
+            title_screen.fade_away()
 
         GameState.IN_PROGRESS:
             pass
 
         GameState.CELEBRATING:
             pass
-        
+
         GameState.CHEATED_FINISH:
             pass
 
