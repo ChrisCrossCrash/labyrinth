@@ -113,8 +113,10 @@ func _on_state_exit(state: GameState) -> void:
         GameState.IN_PROGRESS:
             pass
 
-        GameState.CELEBRATING, GameState.CHEATED_FINISH:
-            # Nothing special right now, but this is where you’d stop VFX, etc.
+        GameState.CELEBRATING:
+            pass
+        
+        GameState.CHEATED_FINISH:
             pass
 
 
