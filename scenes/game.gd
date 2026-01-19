@@ -1,6 +1,8 @@
 extends Node3D
 
 enum GameState {
+    UNSET,
+    NOT_STARTED,
     IN_PROGRESS,
     CELEBRATING,
     CHEATED_FINISH,
@@ -13,13 +15,13 @@ const FALL_Y_THRESHOLD := -1.0
 @onready var win_sound: AudioStreamPlayer = $WinSound
 @onready var post_finish_timer: Timer = $PostFinishTimer
 @onready var confetti_spawner: ConfettiSpawner = $ConfettiSpawner
-
 @onready var completion_time_label: Label = $Overlay/CompletionTimeLabel
 @onready var cheated_label: Label = $Overlay/CheatedLabel
+@onready var camera_rig: CameraRig = $CameraRig
 
 @onready var waypoints: Array[Node] = $Platform/Waypoints.get_children()
 
-var _game_state: GameState = GameState.IN_PROGRESS
+var _game_state: GameState = GameState.UNSET
 var _ball_start_pos: Vector3
 var _fall_through_handled := false
 var _run_time_elapsed := 0.0
@@ -38,10 +40,14 @@ func _ready() -> void:
         wp.connect("waypoint_reached", _on_waypoint_reached)
 
     # Ensure initial state is applied consistently.
-    _transition_to(GameState.IN_PROGRESS)
+    _transition_to(GameState.NOT_STARTED)
 
 
 func _input(event: InputEvent) -> void:
+    if _game_state == GameState.NOT_STARTED:
+        if C3Utils.is_any_key(event):
+            _transition_to(GameState.IN_PROGRESS)
+        return
     if event.is_action_pressed("debug_1"):
         if OS.is_debug_build():
             print("exploding confetti...")
@@ -82,6 +88,10 @@ func _transition_to(new_state: GameState) -> void:
 
 func _on_state_enter(state: GameState) -> void:
     match state:
+        GameState.NOT_STARTED:
+            camera_rig.set_is_orbiting(true)
+            ball.freeze = true
+
         GameState.IN_PROGRESS:
             _reset_run()
 
@@ -96,6 +106,10 @@ func _on_state_enter(state: GameState) -> void:
 
 func _on_state_exit(state: GameState) -> void:
     match state:
+        GameState.NOT_STARTED:
+            camera_rig.set_is_orbiting(false)
+            ball.freeze = false
+
         GameState.IN_PROGRESS:
             pass
 
